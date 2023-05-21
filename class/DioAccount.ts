@@ -4,7 +4,7 @@ export abstract class DioAccount {
   balance: number = 0
   private status: boolean = true
 
-  constructor(name: string, accountNumber: number){
+  constructor(name: string, accountNumber: number) {
     this.name = name
     this.accountNumber = accountNumber
   }
@@ -18,25 +18,79 @@ export abstract class DioAccount {
     return this.name
   }
 
-  deposit = (): void => {
-    if(this.validateStatus()){
-      console.log('Voce depositou')
+  deposit = (value: number): void => {
+    if (this.validateStatus()) {
+      this.balance += value
+      const message = `Você depositou: ${this.formatBRLCurrency(value)}`
+      const balance = this.formatBRLCurrency(this.balance)
+      console.log({
+        operation: `Depósito ${this.formatBRLCurrency(value)}`,
+        accountHolder: this.name,
+        account: this.accountNumber,
+        message,
+        balance
+      })
+    } else {
+      console.log({
+        operation: `Depósito ${this.formatBRLCurrency(value)}`,
+        accountHolder: this.name,
+        account: this.accountNumber,
+        message: 'Conta inativa.',
+        balance: this.formatBRLCurrency(this.balance)
+      })
     }
   }
 
-  withdraw = (): void => {
-    console.log('Voce sacou')
+  withdraw = (value: number): void => {
+    if (this.validateStatus()) {
+      if (this.balance < value) {
+        console.log({
+          operation: `Saque ${this.formatBRLCurrency(value)}`,
+          accountHolder: this.name,
+          account: this.accountNumber,
+          message: 'Saldo insuficiente.',
+          balance: this.formatBRLCurrency(this.balance)
+        })
+      } else {
+        this.balance -= value;
+        console.log({
+          operation: `Saque ${this.formatBRLCurrency(value)}`,
+          accountHolder: this.name,
+          account: this.accountNumber,
+          message: `Você sacou: ${this.formatBRLCurrency(value)}`,
+          balance: this.formatBRLCurrency(this.balance)
+        })
+      }
+    } else {
+      console.log({
+        operation: `Saque ${this.formatBRLCurrency(value)}`,
+        accountHolder: this.name,
+        account: this.accountNumber,
+        message: 'Conta inativa.',
+        balance: this.formatBRLCurrency(this.balance)
+      })
+    }
   }
 
   getBalance = (): void => {
-    console.log(this.balance)
+    console.log({
+      operation: 'Obter saldo da conta',
+      accountHolder: this.name,
+      account: this.accountNumber,
+      status: this.status ? 'Conta ativa.' : 'Conta inativa.',
+      balance: this.formatBRLCurrency(this.balance)
+    })
   }
 
-  private validateStatus = (): boolean => {
-    if (this.status) {
-      return this.status
-    }
+  getAccountNumer = (): number => {
+    return this.accountNumber
+  }
 
-    throw new Error('Conta inválida')
+  validateStatus = (): boolean => {
+    return this.status
+  }
+
+  formatBRLCurrency = (value: number): string => {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   }
 }

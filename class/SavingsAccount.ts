@@ -1,19 +1,19 @@
 import { DioAccount } from "./DioAccount";
 
-export class CompanyAccount extends DioAccount {
+export class SavingsAccount extends DioAccount {
 
   constructor(name: string, accountNumber: number) {
     super(name, accountNumber)
   }
 
-  getLoan = (value: number): void => {
+  deposit = (value: number): void => {
     if (this.validateStatus()) {
-      const currentBalance = this.balance;
-      this.balance = currentBalance + value + 10;
-      const message = `Você pegou um empréstimo de ${this.formatBRLCurrency(value)}`
+      const depositAmount = value + 10;
+      this.balance += depositAmount;
+      const message = `Você depositou: ${this.formatBRLCurrency(value)}`
       const balance = this.formatBRLCurrency(this.balance)
       console.log({
-        operation: `Empréstimo ${this.formatBRLCurrency(value)}`,
+        operation: `Depósito ${this.formatBRLCurrency(value)}`,
         accountHolder: this.getName(),
         account: this.getAccountNumer(),
         message,
@@ -21,7 +21,7 @@ export class CompanyAccount extends DioAccount {
       })
     } else {
       console.log({
-        operation: `Empréstimo ${this.formatBRLCurrency(value)}`,
+        operation: `Depósito ${this.formatBRLCurrency(value)}`,
         accountHolder: this.getName(),
         account: this.getAccountNumer(),
         message: 'Conta inativa.',
@@ -29,4 +29,5 @@ export class CompanyAccount extends DioAccount {
       })
     }
   }
+
 }
