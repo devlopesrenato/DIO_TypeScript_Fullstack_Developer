@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
 import { Button } from '../components/Button';
 import { login } from "../services/login";
-import { changeLocalStorage, getAllLocalStorage } from "../services/storage";
+import { changeLocalStorage } from "../services/storage";
 
 interface IDIoBank {
     login: boolean;
@@ -14,45 +14,12 @@ interface IDIoBank {
     }
 }
 
-const Login = () => {    
+const Login = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassowrd] = useState<string>('')
 
-    const { setIsLoggedIn, loadingData, setLoadingData } = useContext(AppContext)
+    const { setIsLoggedIn, loadingData, isLoggedIn } = useContext(AppContext)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const verifyLogin = async () => {
-            setLoadingData(true)
-            setIsLoggedIn(false)
-            const isAuthenticated = async () => {
-                const userData = getAllLocalStorage()
-                if (userData) {
-                    const data: IDIoBank = JSON.parse(userData)
-                    const email = data.userData?.email
-                    const password = data.userData?.password
-                    if (email && password) {
-                        const isUserValid = await login(email, password)
-                        if (isUserValid) {
-                            return true
-                        }
-                        return false
-                    }
-                    return false
-                }
-            }
-
-            if (await isAuthenticated()) {
-                setLoadingData(false)
-                setIsLoggedIn(true)
-                navigate('/conta/1')
-            } else {
-                setLoadingData(false)
-                setIsLoggedIn(false)
-            }
-        }
-        verifyLogin()
-    })
 
     const validateUser = async () => {
         if (email === '') {
@@ -78,6 +45,13 @@ const Login = () => {
 
         navigate('/conta/1')
     }
+
+
+    useEffect(() => {
+        if (isLoggedIn && !loadingData) {
+            navigate('/conta/1')
+        }
+    }, [isLoggedIn, loadingData])
 
     return loadingData ? (
         <Center flex='1' mt={30} mb={20}>

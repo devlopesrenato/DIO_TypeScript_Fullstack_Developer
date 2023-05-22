@@ -1,10 +1,10 @@
 import { Box, Center, Spinner, Text } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
 
 const Usuario = () => {
-  const { loadingData, user } = useContext(AppContext)
+  const { loadingData, user, isLoggedIn } = useContext(AppContext)
   const navigate = useNavigate()
 
 
@@ -12,6 +12,12 @@ const Usuario = () => {
   if (user && id !== user.id) {
     navigate('/')
   }
+
+  useEffect(() => {
+    if (!isLoggedIn && !loadingData) {
+      navigate('/')
+    }
+  }, [isLoggedIn, loadingData])
 
   return loadingData ? (
     <Center flex='1' mt={30} mb={20}>

@@ -1,25 +1,23 @@
 import { Center, SimpleGrid, Spinner } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
 import CardInfo from "../components/CardInfo";
 
-interface UserData {
-  email: string
-  password: string
-  name: string
-  balance: number
-  id: string
-}
-
 const Conta = () => {
-  const { loadingData, user } = useContext(AppContext)
+  const { loadingData, user, isLoggedIn } = useContext(AppContext)
   const navigate = useNavigate()
 
   const { id } = useParams()
-  if (user && id !== user.id) {
+  if (user !== null && id !== user.id) {    
     navigate('/')
   }
+
+  useEffect(() => {
+    if (!isLoggedIn && !loadingData) {
+      navigate('/')
+    }
+  }, [isLoggedIn, loadingData])
 
   const date = new Date()
   const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
@@ -38,7 +36,7 @@ const Conta = () => {
             : (
               <>
                 <CardInfo title={`Bem vindo(a) ${user?.name}`} content={currentDate} />
-                <CardInfo title="Informações da conta:" content={`Saldo: R$ ${user?.balance}`} />
+                <CardInfo title="Informações da conta:" content={`Saldo: ${user?.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} />
               </>
             )
         }
