@@ -3,10 +3,10 @@ import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
 import CardInfo from "../components/CardInfo";
+const navigate = useNavigate()
 
 const Conta = () => {
   const { loadingData, user, isLoggedIn } = useContext(AppContext)
-  const navigate = useNavigate()
 
   const { id } = useParams()
   if (user !== null && id !== user.id) {    

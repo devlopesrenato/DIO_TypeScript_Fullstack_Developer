@@ -5,21 +5,13 @@ import { AppContext } from "../components/AppContext";
 import { Button } from '../components/Button';
 import { login } from "../services/login";
 import { changeLocalStorage } from "../services/storage";
-
-interface IDIoBank {
-    login: boolean;
-    userData?: {
-        email: string
-        password: string
-    }
-}
+const navigate = useNavigate()
 
 const Login = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassowrd] = useState<string>('')
 
     const { setIsLoggedIn, loadingData, isLoggedIn } = useContext(AppContext)
-    const navigate = useNavigate()
 
     const validateUser = async () => {
         if (email === '') {

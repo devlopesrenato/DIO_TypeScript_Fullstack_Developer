@@ -2,10 +2,10 @@ import { Box, Center, Spinner, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
+const navigate = useNavigate()
 
 const Usuario = () => {
   const { loadingData, user, isLoggedIn } = useContext(AppContext)
-  const navigate = useNavigate()
 
 
   const { id } = useParams()
