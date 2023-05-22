@@ -23,27 +23,34 @@ const Conta = () => {
   const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
   const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
   const currentDate = `${date.toLocaleDateString()} ${hours}:${minutes}`
-  return (<>
-    <Center flex='1' mt={30} mb={20} >
-      <SimpleGrid columns={2} spacing={8} paddingTop={16}>
-        {
-          loadingData ?
-            (
-              <Center>
-                <Spinner size='xl' color="#FFF" />
-              </Center>
-            )
-            : (
-              <>
-                <CardInfo title={`Bem vindo(a) ${user?.name}`} content={currentDate} />
-                <CardInfo title="Informações da conta:" content={`Saldo: ${user?.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} />
-              </>
-            )
-        }
-      </SimpleGrid>
+
+  console.log(loadingData)
+  return !user ? (
+    <Center flex='1' mt={30} mb={20}>
+      <Spinner size='xl' color="#FFF" />
     </Center>
-  </>
   )
+    : (<>
+      <Center flex='1' mt={30} mb={20} >
+        <SimpleGrid columns={2} spacing={8} paddingTop={16}>
+          {
+            loadingData ?
+              (
+                <Center>
+                  <Spinner size='xl' color="#FFF" />
+                </Center>
+              )
+              : (
+                <>
+                  <CardInfo title={`Bem vindo(a) ${user?.name}`} content={currentDate} />
+                  <CardInfo title="Informações da conta:" content={`Saldo: ${user?.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`} />
+                </>
+              )
+          }
+        </SimpleGrid>
+      </Center>
+    </>
+    )
 }
 
 export default Conta;

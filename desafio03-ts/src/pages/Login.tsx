@@ -11,7 +11,7 @@ const Login = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassowrd] = useState<string>('')
 
-    const { setIsLoggedIn, loadingData, isLoggedIn } = useContext(AppContext)
+    const { setIsLoggedIn, loadingData, isLoggedIn, setUser } = useContext(AppContext)
 
     const validateUser = async () => {
         if (email === '') {
@@ -20,20 +20,22 @@ const Login = () => {
             return alert('Senha inválida')
         }
 
-        const loggedIn = await login(email, password)
+        const loggedInData = await login(email, password)
 
-        if (!loggedIn) {
+        if (!loggedInData) {
             return alert('Credenciais inválidas.')
+        } else {
+            setIsLoggedIn(true)
+            setUser(loggedInData)
+            changeLocalStorage({
+                login: true,
+                userData: {
+                    email,
+                    password
+                }
+            })
         }
 
-        setIsLoggedIn(true)
-        changeLocalStorage({
-            login: true,
-            userData: {
-                email,
-                password
-            }
-        })
 
         navigate('/conta/1')
     }

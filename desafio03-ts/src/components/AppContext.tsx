@@ -3,8 +3,17 @@ import { api } from "../api";
 import { login } from "../services/login";
 import { getAllLocalStorage } from "../services/storage";
 
+interface UserData {
+  email: string
+  password: string
+  name: string
+  balance: number
+  id: string
+}
+
 interface IAppContext {
   user: UserData | null,
+  setUser: (user: UserData) => void,
   isLoggedIn: boolean,
   setIsLoggedIn: (isLoggedIn: boolean) => void,
   loadingData: boolean,
@@ -19,19 +28,12 @@ interface IDIoBank {
   }
 }
 
-interface UserData {
-  email: string
-  password: string
-  name: string
-  balance: number
-  id: string
-}
 
 export const AppContext = createContext({} as IAppContext)
 
 export const AppContextProvider = ({ children }: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
-  const [loadingData, setLoadingData] = useState<boolean>(false)
+  const [loadingData, setLoadingData] = useState<boolean>(true)
   const [user, setUser] = useState<UserData | null>(null)
 
   const verifyLogin = async () => {
@@ -73,7 +75,7 @@ export const AppContextProvider = ({ children }: any) => {
 
 
   return (
-    <AppContext.Provider value={{ user, isLoggedIn, setIsLoggedIn, loadingData, setLoadingData }}>
+    <AppContext.Provider value={{ user, setUser, isLoggedIn, setIsLoggedIn, loadingData, setLoadingData }}>
       {children}
     </AppContext.Provider>
   )
