@@ -7,7 +7,7 @@ export const Footer = () => {
       left={0}
     >
       <Center color="white" px='4'>
-        <h1><a href="https://github.com/devlopesrenato"  target="_blank">{'<devLopesRenato />'}</a></h1>
+        <h1><a href="https://github.com/devlopesrenato" rel="noreferrer" target="_blank">{'<devLopesRenato />'}</a></h1>
       </Center>
     </Box>
   )
