@@ -3,13 +3,13 @@ import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../components/AppContext";
 import CardInfo from "../components/CardInfo";
-const navigate = useNavigate()
 
 const Conta = () => {
+  const navigate = useNavigate()
   const { loadingData, user, isLoggedIn } = useContext(AppContext)
 
   const { id } = useParams()
-  if (user !== null && id !== user.id) {    
+  if (user !== null && id !== user.id) {
     navigate('/')
   }
 
@@ -17,7 +17,7 @@ const Conta = () => {
     if (!isLoggedIn && !loadingData) {
       navigate('/')
     }
-  }, [isLoggedIn, loadingData])
+  }, [isLoggedIn, loadingData, navigate])
 
   const date = new Date()
   const hours = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()

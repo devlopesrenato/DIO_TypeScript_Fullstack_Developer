@@ -5,9 +5,9 @@ import { AppContext } from "../components/AppContext";
 import { Button } from '../components/Button';
 import { login } from "../services/login";
 import { changeLocalStorage } from "../services/storage";
-const navigate = useNavigate()
 
 const Login = () => {
+    const navigate = useNavigate()
     const [email, setEmail] = useState<string>('')
     const [password, setPassowrd] = useState<string>('')
 
@@ -43,7 +43,7 @@ const Login = () => {
         if (isLoggedIn && !loadingData) {
             navigate('/conta/1')
         }
-    }, [isLoggedIn, loadingData])
+    }, [isLoggedIn, loadingData, navigate])
 
     return loadingData ? (
         <Center flex='1' mt={30} mb={20}>
