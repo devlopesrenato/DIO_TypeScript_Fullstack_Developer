@@ -61,7 +61,7 @@ export const AppContextProvider = ({ children }: any) => {
       setUser(userData)
     } else {
       setLoadingData(false)
-      setIsLoggedIn(false)
+      setIsLoggedIn(false)      
     }
   }
 
