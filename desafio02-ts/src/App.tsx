@@ -1,15 +1,19 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
-import { Login } from './components/Login';
-import { login } from './services/login';
+import Conta from './pages/Conta';
+import Login from './pages/Login';
+
 
 function App() {
   return (
-    <Layout >
-      <Login
-        maxWidth={'450px'}
-        onClickLogin={(email) => login(email)}
-      />
-    </Layout>
+    <BrowserRouter>
+      <Layout >
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/conta' element={<Conta />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
